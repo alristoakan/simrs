@@ -1,0 +1,68 @@
+/*==============================================================*/
+/* Table: TBLMSTOBAT                                            */
+/*==============================================================*/
+drop table if exists TBLMSTOBAT;
+create table TBLMSTOBAT
+(
+   KDOBAT               varchar(10) not null,
+   NMOBAT               varchar(50),
+   KDPRODUSEN           varchar(10),
+   NMPRODUSEN           varchar(50),
+   STSAKTIF             varchar(10),
+   primary key (KDOBAT)
+);
+
+alter table TBLMSTOBAT add constraint FK_KDPRODUSEN foreign key (KDPRODUSEN)
+      references TBLMSTPRODUSEN (KDPRODUSEN) on delete restrict on update restrict;
+
+drop index KDPRODUSEN on TBLMSTPRODUSEN;
+
+/*==============================================================*/
+/* Table: TBLMSTPRODUSEN                                        */
+/*==============================================================*/
+drop table if exists TBLMSTPRODUSEN;
+create table TBLMSTPRODUSEN
+(
+   KDPRODUSEN           varchar(10) not null,
+   NMPRODUSEN           varchar(50),
+   KLASPRODUSEN         varchar(20),
+   STSAKTIF             varchar(10),
+   primary key (KDPRODUSEN)
+);
+
+/*==============================================================*/
+/* Table: TBLMSTALKES                                           */
+/*==============================================================*/
+drop table if exists TBLMSTALKES;
+create table TBLMSTALKES
+(
+   KDALKES              varchar(10) not null,
+   NMALKES              varchar(50),
+   KDPRODUSEN           varchar(10),
+   NMPRODUSEN           varchar(50),
+   STSAKTIF             varchar(10),
+   primary key (KDALKES)
+);
+
+alter table TBLMSTALKES add constraint FK_KDPRODUSEN foreign key (KDPRODUSEN)
+      references TBLMSTPRODUSEN (KDPRODUSEN) on delete restrict on update restrict;
+
+/*==============================================================*/
+/* Table: TBLMSTITEM                                            */
+/*==============================================================*/
+drop table if exists TBLMSTITEM;
+create temporary table TBLMSTITEM
+(
+   KDITEM               varchar(10) not null,
+   KDPRODUSEN           varchar(10),
+   NMITEM               varchar(50),
+   NMPRODUSEN           varchar(50),
+   KELITEM              varchar(10),
+   STSAKTIF             varchar(10),
+   primary key (KDITEM)
+);
+
+alter table TBLMSTITEM comment 'Tabel Master Item logistik umum, Gizi dan teknik';
+
+alter table TBLMSTITEM add constraint FK_REFERENCE_8 foreign key (KDPRODUSEN)
+      references TBLMSTPRODUSEN (KDPRODUSEN) on delete restrict on update restrict;
